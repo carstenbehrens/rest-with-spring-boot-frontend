@@ -7,6 +7,12 @@ const useStyles = makeStyles((theme) => ({
   tableHead: {
     backgroundColor: theme.palette.primary.light,
   },
+  tableRowStyle: {
+    "&:hover": {
+      backgroundColor: "#D3D3D3",
+      cursor: "pointer",
+    },
+  },
 }));
 
 export default useStyles;

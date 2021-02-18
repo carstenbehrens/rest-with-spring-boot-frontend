@@ -61,7 +61,11 @@ export default function App() {
           </TableHead>
           <TableBody>
             {state.products.map((entry) => (
-              <TableRow key={entry.id} onClick={() => toggleModal(entry.id)}>
+              <TableRow
+                className={classes.tableRowStyle}
+                key={entry.id}
+                onClick={() => toggleModal(entry.id)}
+              >
                 <TableCell align="left">{entry.id}</TableCell>
                 <TableCell align="right">{entry.title}</TableCell>
                 <TableCell align="right">{entry.name}</TableCell>
