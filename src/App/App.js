@@ -31,7 +31,7 @@ export const reducer = (state, action) => {
 export default function App() {
   const [state, dispatch] = useReducer(reducer, {
     selectedProductId: null,
-    isModalOpen: true,
+    isModalOpen: false,
     products: [],
   });
   const classes = useStyles();
@@ -78,7 +78,7 @@ export default function App() {
       <EditModal
         open={state.isModalOpen}
         toggleModal={toggleModal}
-        selectedProductId={state.selectedProductId}
+        selectedProduct={state.products[state.selectedProductId - 1]}
       />
     </Container>
   );
