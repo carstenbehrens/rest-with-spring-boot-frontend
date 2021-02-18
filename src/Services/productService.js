@@ -15,6 +15,13 @@ class ProductService {
       console.error(e);
     }
   }
+  async deleteAll() {
+    try {
+      await fetch(`/products/`, { method: "DELETE" });
+    } catch (e) {
+      console.error(e);
+    }
+  }
 }
 
 export default ProductService;

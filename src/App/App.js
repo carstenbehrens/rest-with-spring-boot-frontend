@@ -1,16 +1,22 @@
 import React, { useEffect, useReducer } from "react";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import {
+  Box,
+  Button,
+  Container,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  Paper,
+} from "@material-ui/core";
 import ProductService from "../Services/productService";
 import useStyles from "./styles";
-import { Container } from "@material-ui/core";
 import EditModal from "../EditModal/EditModal";
 import findProductById from "../Utils/findProductById";
+import { Delete } from "@material-ui/icons";
 
 const productService = new ProductService();
 
@@ -37,12 +43,15 @@ export default function App() {
   });
   const classes = useStyles();
 
+  const getProducts = async () => {
+    const products = await productService.get();
+    dispatch({ type: "GET_PRODUCTS", data: products });
+  };
+
   useEffect(() => {
     const fetchData = async () => {
-      const products = await productService.get();
-      dispatch({ type: "GET_PRODUCTS", data: products });
+      await getProducts();
     };
-
     fetchData();
   }, []);
 
@@ -50,12 +59,35 @@ export default function App() {
 
   const deleteItemById = async (id) => {
     await productService.deleteById(id);
-    const products = await productService.get();
-    dispatch({ type: "GET_PRODUCTS", data: products });
+    getProducts();
+  };
+
+  const deleteAll = async () => {
+    await productService.deleteAll();
+    getProducts();
   };
 
   return (
     <Container>
+      <Box
+        display="flex"
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Typography variant="h3" component="h1" color="textSecondary">
+          Products
+        </Typography>
+        <Button
+          className={classes.deleteButton}
+          variant="contained"
+          color="secondary"
+          startIcon={<Delete />}
+          onClick={deleteAll}
+        >
+          Delete All
+        </Button>
+      </Box>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead className={classes.tableHead}>
