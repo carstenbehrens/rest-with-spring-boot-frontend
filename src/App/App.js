@@ -8,6 +8,8 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import ProductService from "../Services/productService";
 import useStyles from "./styles";
+import { Container } from "@material-ui/core";
+import EditModal from "../EditModal/EditModal";
 
 const productService = new ProductService();
 
@@ -15,6 +17,12 @@ export const reducer = (state, action) => {
   switch (action.type) {
     case "GET_PRODUCTS":
       return { ...state, products: action.data };
+    case "TOGGLE_MODAL":
+      return {
+        ...state,
+        isModalOpen: !state.isModalOpen,
+        selectedProductId: action.data,
+      };
     default:
       throw new Error();
   }
@@ -22,6 +30,8 @@ export const reducer = (state, action) => {
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, {
+    selectedProductId: null,
+    isModalOpen: true,
     products: [],
   });
   const classes = useStyles();
@@ -35,28 +45,37 @@ export default function App() {
     fetchData();
   }, []);
 
+  const toggleModal = (id) => dispatch({ type: "TOGGLE_MODAL", data: id });
+
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead className={classes.tableHead}>
-          <TableRow>
-            <TableCell>Id</TableCell>
-            <TableCell align="right">Title</TableCell>
-            <TableCell align="right">Name</TableCell>
-            <TableCell align="right">Description</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {state.products.map((entry) => (
-            <TableRow key={entry.id}>
-              <TableCell align="left">{entry.id}</TableCell>
-              <TableCell align="right">{entry.title}</TableCell>
-              <TableCell align="right">{entry.name}</TableCell>
-              <TableCell align="right">{entry.description}</TableCell>
+    <Container>
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead className={classes.tableHead}>
+            <TableRow>
+              <TableCell>Id</TableCell>
+              <TableCell align="right">Title</TableCell>
+              <TableCell align="right">Name</TableCell>
+              <TableCell align="right">Description</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {state.products.map((entry) => (
+              <TableRow key={entry.id} onClick={() => toggleModal(entry.id)}>
+                <TableCell align="left">{entry.id}</TableCell>
+                <TableCell align="right">{entry.title}</TableCell>
+                <TableCell align="right">{entry.name}</TableCell>
+                <TableCell align="right">{entry.description}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <EditModal
+        open={state.isModalOpen}
+        toggleModal={toggleModal}
+        selectedProductId={state.selectedProductId}
+      />
+    </Container>
   );
 }
