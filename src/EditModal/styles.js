@@ -10,10 +10,16 @@ const useStyles = makeStyles((theme) => ({
     pointerEvents: "none",
   },
   paper: {
-    padding: "10px",
+    padding: theme.spacing(1),
     width: "400px",
     maxWidth: "800px",
     pointerEvents: "all",
+  },
+  textField: {
+    marginTop: theme.spacing(2),
+  },
+  deleteButton: {
+    marginRight: theme.spacing(1),
   },
 }));
 

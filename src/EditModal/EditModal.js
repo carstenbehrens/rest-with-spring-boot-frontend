@@ -1,11 +1,12 @@
 import React from "react";
 import {
+  Box,
+  Button,
   Modal,
   Paper,
   Typography,
-  Box,
+  TextField,
   IconButton,
-  Button,
 } from "@material-ui/core";
 import useStyles from "./styles";
 import { Cancel, Delete, Edit } from "@material-ui/icons";
@@ -39,9 +40,34 @@ export default function EditModal(props) {
               <Cancel />
             </IconButton>
           </Box>
-          <Box></Box>
-          <Box display="flex" flexDirection="row">
+          <Box>
+            <form noValidate autoComplete="off">
+              <TextField
+                className={classes.textField}
+                label="Title"
+                multiline
+                value={selectedProduct.title}
+                variant="outlined"
+              />
+              <TextField
+                className={classes.textField}
+                label="Name"
+                multiline
+                value={selectedProduct.name}
+                variant="outlined"
+              />
+              <TextField
+                className={classes.textField}
+                label="Description"
+                multiline
+                value={selectedProduct.description}
+                variant="outlined"
+              />
+            </form>
+          </Box>
+          <Box display="flex" flexDirection="row" mt={1}>
             <Button
+              className={classes.deleteButton}
               fullWidth
               variant="contained"
               color="secondary"
@@ -52,6 +78,7 @@ export default function EditModal(props) {
             </Button>
             <Button
               fullWidth
+              disabled
               variant="contained"
               color="primary"
               startIcon={<Edit />}
