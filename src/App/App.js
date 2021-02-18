@@ -10,6 +10,7 @@ import ProductService from "../Services/productService";
 import useStyles from "./styles";
 import { Container } from "@material-ui/core";
 import EditModal from "../EditModal/EditModal";
+import findProductById from "../Utils/findProductById";
 
 const productService = new ProductService();
 
@@ -47,6 +48,12 @@ export default function App() {
 
   const toggleModal = (id) => dispatch({ type: "TOGGLE_MODAL", data: id });
 
+  const deleteItemById = async (id) => {
+    await productService.deleteById(id);
+    const products = await productService.get();
+    dispatch({ type: "GET_PRODUCTS", data: products });
+  };
+
   return (
     <Container>
       <TableContainer component={Paper}>
@@ -78,7 +85,11 @@ export default function App() {
       <EditModal
         open={state.isModalOpen}
         toggleModal={toggleModal}
-        selectedProduct={state.products[state.selectedProductId - 1]}
+        selectedProduct={findProductById(
+          state.products,
+          state.selectedProductId
+        )}
+        deleteItemById={deleteItemById}
       />
     </Container>
   );

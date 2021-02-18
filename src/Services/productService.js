@@ -8,6 +8,13 @@ class ProductService {
       console.error(e);
     }
   }
+  async deleteById(id) {
+    try {
+      await fetch(`/products/${id}/`, { method: "DELETE" });
+    } catch (e) {
+      console.error(e);
+    }
+  }
 }
 
 export default ProductService;
