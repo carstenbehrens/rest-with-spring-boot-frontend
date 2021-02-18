@@ -1,7 +1,14 @@
 import React from "react";
-import { Modal, Paper, Typography, Box, IconButton } from "@material-ui/core";
+import {
+  Modal,
+  Paper,
+  Typography,
+  Box,
+  IconButton,
+  Button,
+} from "@material-ui/core";
 import useStyles from "./styles";
-import CancelIcon from "@material-ui/icons/Cancel";
+import { Cancel, Delete, Edit } from "@material-ui/icons";
 
 export default function EditModal(props) {
   const classes = useStyles();
@@ -24,10 +31,28 @@ export default function EditModal(props) {
           >
             <Typography>Edit ID: {selectedProduct.id}</Typography>
             <IconButton size="medium" edge="start" onClick={toggleModal}>
-              <CancelIcon />
+              <Cancel />
             </IconButton>
           </Box>
           <Box></Box>
+          <Box display="flex" flexDirection="row">
+            <Button
+              fullWidth
+              variant="contained"
+              color="secondary"
+              startIcon={<Delete />}
+            >
+              Delete
+            </Button>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              startIcon={<Edit />}
+            >
+              Edit
+            </Button>
+          </Box>
         </Paper>
       </Box>
     </Modal>
