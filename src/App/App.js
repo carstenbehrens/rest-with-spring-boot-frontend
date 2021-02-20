@@ -103,9 +103,9 @@ export default function App() {
           <TableHead className={classes.tableHead}>
             <TableRow>
               <TableCell>Id</TableCell>
-              <TableCell align="right">Title</TableCell>
-              <TableCell align="right">Name</TableCell>
-              <TableCell align="right">Description</TableCell>
+              <TableCell align="left">Title</TableCell>
+              <TableCell align="left">Name</TableCell>
+              <TableCell align="left">Description</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -116,9 +116,9 @@ export default function App() {
                 onClick={() => handleProductClick(entry.id)}
               >
                 <TableCell align="left">{entry.id}</TableCell>
-                <TableCell align="right">{entry.title}</TableCell>
-                <TableCell align="right">{entry.name}</TableCell>
-                <TableCell align="right">{entry.description}</TableCell>
+                <TableCell align="left">{entry.title}</TableCell>
+                <TableCell align="left">{entry.name}</TableCell>
+                <TableCell align="left">{entry.description}</TableCell>
               </TableRow>
             ))}
           </TableBody>
