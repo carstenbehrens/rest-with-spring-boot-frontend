@@ -45,7 +45,7 @@ export const reducer = (state, action) => {
     case SET_SELECTED_PRODUCT:
       return {
         ...state,
-        selectedProductId: action.data,
+        selectedProduct: findProductById(state.products, action.data),
       };
     default:
       throw new Error();
@@ -53,7 +53,7 @@ export const reducer = (state, action) => {
 };
 
 export const getInitialState = () => ({
-  selectedProductId: null,
+  selectedProduct: null,
   isEditModalOpen: false,
   isAddModalOpen: false,
   products: [],
@@ -173,10 +173,7 @@ export default function App() {
               toggleEditModal={toggleEditModal}
               updateProduct={updateProduct}
               deleteItemById={deleteItemById}
-              selectedProduct={findProductById(
-                state.products,
-                state.selectedProductId
-              )}
+              selectedProduct={state.selectedProduct}
             />
           }
           open={state.isEditModalOpen}
