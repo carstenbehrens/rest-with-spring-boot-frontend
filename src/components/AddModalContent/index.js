@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import useStyles from "./styles";
-import { Box, Button, TextField, IconButton } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  IconButton,
+} from "@material-ui/core";
 import { Add, Cancel } from "@material-ui/icons";
 
 export default function AddModalContent(props) {
@@ -43,12 +49,16 @@ export default function AddModalContent(props) {
 
   return (
     <>
-      <Box display="flex" flexDirection="column">
-        <Box alignSelf="flex-end">
-          <IconButton size="medium" edge="start" onClick={toggleAddModal}>
-            <Cancel />
-          </IconButton>
-        </Box>
+      <Box
+        display="flex"
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Typography>Add Product</Typography>
+        <IconButton size="medium" edge="start" onClick={toggleAddModal}>
+          <Cancel />
+        </IconButton>
       </Box>
       <form noValidate autoComplete="off">
         <Box display="flex" flexDirection="column">
