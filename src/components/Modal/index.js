@@ -2,7 +2,7 @@ import React from "react";
 import useStyles from "./styles";
 import { Box, Modal, Paper } from "@material-ui/core";
 
-export default function AddModal(props) {
+export default function ModalCompoent(props) {
   const classes = useStyles();
 
   const { open, toggleModal, modalContent } = props;

@@ -3,6 +3,12 @@ import EditModalContent from "../EditModalContent";
 import AddModalContent from "../AddModalContent";
 import Modal from "../Modal";
 import ProductService from "../../services/productService";
+import {
+  GET_PRODUCTS,
+  TOGGLE_ADD_MODAL,
+  TOGGLE_EDIT_MODAL,
+  SET_SELECTED_PRODUCT,
+} from "../../constants/actionTypes";
 import findProductById from "../../utils/findProductById";
 import useStyles from "./styles";
 import {
@@ -24,19 +30,19 @@ const productService = new ProductService();
 
 export const reducer = (state, action) => {
   switch (action.type) {
-    case "GET_PRODUCTS":
+    case GET_PRODUCTS:
       return { ...state, products: action.data };
-    case "TOGGLE_EDIT_MODAL":
+    case TOGGLE_EDIT_MODAL:
       return {
         ...state,
         isEditModalOpen: !state.isEditModalOpen,
       };
-    case "TOGGLE_ADD_MODAL":
+    case TOGGLE_ADD_MODAL:
       return {
         ...state,
         isAddModalOpen: !state.isAddModalOpen,
       };
-    case "SET_SELECTED_PRODUCT":
+    case SET_SELECTED_PRODUCT:
       return {
         ...state,
         selectedProductId: action.data,
@@ -66,17 +72,17 @@ export default function App() {
   }, []);
 
   const handleProductClick = (id) => {
-    dispatch({ type: "SET_SELECTED_PRODUCT", data: id });
+    dispatch({ type: SET_SELECTED_PRODUCT, data: id });
     toggleEditModal();
   };
 
-  const toggleEditModal = () => dispatch({ type: "TOGGLE_EDIT_MODAL" });
+  const toggleEditModal = () => dispatch({ type: TOGGLE_EDIT_MODAL });
 
   const handleCreateClick = (id) => {
     toggleAddModal();
   };
 
-  const toggleAddModal = () => dispatch({ type: "TOGGLE_ADD_MODAL" });
+  const toggleAddModal = () => dispatch({ type: TOGGLE_ADD_MODAL });
 
   const createProduct = async (data) => {
     await productService.createProduct(data);
@@ -85,7 +91,7 @@ export default function App() {
 
   const getProducts = async () => {
     const products = await productService.get();
-    dispatch({ type: "GET_PRODUCTS", data: products });
+    dispatch({ type: GET_PRODUCTS, data: products });
   };
 
   const updateProduct = async (data) => {
