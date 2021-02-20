@@ -1,7 +1,8 @@
 import React, { useEffect, useReducer } from "react";
+import Table from "../Table";
+import Modal from "../Modal";
 import EditModalContent from "../EditModalContent";
 import AddModalContent from "../AddModalContent";
-import Modal from "../Modal";
 import ProductService from "../../services/productService";
 import {
   GET_PRODUCTS,
@@ -10,20 +11,8 @@ import {
   SET_SELECTED_PRODUCT,
 } from "../../constants/actionTypes";
 import findProductById from "../../utils/findProductById";
-import useStyles from "./styles";
-import {
-  Box,
-  Button,
-  Container,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-  Paper,
-} from "@material-ui/core";
+import useStyles from "../Table/styles";
+import { Box, Button, Container, Typography } from "@material-ui/core";
 import { Delete, Add } from "@material-ui/icons";
 
 const productService = new ProductService();
@@ -130,32 +119,10 @@ export default function App() {
           Delete All
         </Button>
       </Box>
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead className={classes.tableHead}>
-            <TableRow>
-              <TableCell>Id</TableCell>
-              <TableCell align="left">Title</TableCell>
-              <TableCell align="left">Name</TableCell>
-              <TableCell align="left">Description</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {state.products.map((entry) => (
-              <TableRow
-                className={classes.tableRowStyle}
-                key={entry.id}
-                onClick={() => handleProductClick(entry.id)}
-              >
-                <TableCell align="left">{entry.id}</TableCell>
-                <TableCell align="left">{entry.title}</TableCell>
-                <TableCell align="left">{entry.name}</TableCell>
-                <TableCell align="left">{entry.description}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <Table
+        handleProductClick={handleProductClick}
+        products={state.products}
+      />
       <Button
         className={classes.deleteButton}
         fullWidth
