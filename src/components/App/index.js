@@ -4,51 +4,19 @@ import Modal from "../Modal";
 import EditModalContent from "../EditModalContent";
 import AddModalContent from "../AddModalContent";
 import ProductService from "../../services/productService";
+import { reducer, getInitialState } from "./reducer";
 import {
   GET_PRODUCTS,
   TOGGLE_ADD_MODAL,
   TOGGLE_EDIT_MODAL,
   SET_SELECTED_PRODUCT,
 } from "../../constants/actionTypes";
-import findProductById from "../../utils/findProductById";
 import useStyles from "../Table/styles";
 import { Box, Button, Container, Typography } from "@material-ui/core";
 import { Delete, Add } from "@material-ui/icons";
 
-const productService = new ProductService();
-
-export const reducer = (state, action) => {
-  switch (action.type) {
-    case GET_PRODUCTS:
-      return { ...state, products: action.data };
-    case TOGGLE_EDIT_MODAL:
-      return {
-        ...state,
-        isEditModalOpen: !state.isEditModalOpen,
-      };
-    case TOGGLE_ADD_MODAL:
-      return {
-        ...state,
-        isAddModalOpen: !state.isAddModalOpen,
-      };
-    case SET_SELECTED_PRODUCT:
-      return {
-        ...state,
-        selectedProduct: findProductById(state.products, action.data),
-      };
-    default:
-      throw new Error();
-  }
-};
-
-export const getInitialState = () => ({
-  selectedProduct: null,
-  isEditModalOpen: false,
-  isAddModalOpen: false,
-  products: [],
-});
-
 export default function App() {
+  const productService = new ProductService();
   const classes = useStyles();
 
   const [state, dispatch] = useReducer(reducer, getInitialState());

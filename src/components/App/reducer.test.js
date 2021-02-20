@@ -1,4 +1,4 @@
-import { reducer, getInitialState } from "./index";
+import { reducer, getInitialState } from "./reducer";
 import {
   GET_PRODUCTS,
   TOGGLE_ADD_MODAL,
