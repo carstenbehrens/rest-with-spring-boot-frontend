@@ -14,8 +14,9 @@ import {
 } from "@material-ui/core";
 import ProductService from "../Services/productService";
 import useStyles from "./styles";
-import EditModal from "../EditModal/EditModal";
-import AddModal from "../AddModal/AddModal";
+import EditModalContent from "../EditModalContent";
+import AddModalContent from "../AddModalContent";
+import Modal from "../Modal";
 import findProductById from "../Utils/findProductById";
 import { Delete, Add } from "@material-ui/icons";
 
@@ -158,22 +159,32 @@ export default function App() {
         Create Product
       </Button>
       {state.isEditModalOpen ? (
-        <EditModal
+        <Modal
+          modalContent={
+            <EditModalContent
+              toggleEditModal={toggleEditModal}
+              updateProduct={updateProduct}
+              deleteItemById={deleteItemById}
+              selectedProduct={findProductById(
+                state.products,
+                state.selectedProductId
+              )}
+            />
+          }
           open={state.isEditModalOpen}
-          toggleEditModal={toggleEditModal}
-          selectedProduct={findProductById(
-            state.products,
-            state.selectedProductId
-          )}
-          deleteItemById={deleteItemById}
-          updateProduct={updateProduct}
+          toggleModal={toggleEditModal}
         />
       ) : null}
       {state.isAddModalOpen ? (
-        <AddModal
+        <Modal
+          modalContent={
+            <AddModalContent
+              toggleAddModal={toggleAddModal}
+              createProduct={createProduct}
+            />
+          }
+          toggleModal={toggleAddModal}
           open={state.isAddModalOpen}
-          toggleAddModal={toggleAddModal}
-          createProduct={createProduct}
         />
       ) : null}
     </Container>
