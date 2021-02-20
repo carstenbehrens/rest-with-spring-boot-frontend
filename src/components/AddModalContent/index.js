@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, TextField, IconButton } from "@material-ui/core";
 import useStyles from "./styles";
+import { Box, Button, TextField, IconButton } from "@material-ui/core";
 import { Add, Cancel } from "@material-ui/icons";
 
 export default function AddModalContent(props) {

@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, Modal, Paper } from "@material-ui/core";
 import useStyles from "./styles";
+import { Box, Modal, Paper } from "@material-ui/core";
 
 export default function AddModal(props) {
   const classes = useStyles();

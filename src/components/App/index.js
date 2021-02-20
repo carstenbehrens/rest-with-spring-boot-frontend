@@ -1,4 +1,10 @@
 import React, { useEffect, useReducer } from "react";
+import EditModalContent from "../EditModalContent";
+import AddModalContent from "../AddModalContent";
+import Modal from "../Modal";
+import ProductService from "../../services/productService";
+import findProductById from "../../utils/findProductById";
+import useStyles from "./styles";
 import {
   Box,
   Button,
@@ -12,12 +18,6 @@ import {
   Typography,
   Paper,
 } from "@material-ui/core";
-import ProductService from "../Services/productService";
-import useStyles from "./styles";
-import EditModalContent from "../EditModalContent";
-import AddModalContent from "../AddModalContent";
-import Modal from "../Modal";
-import findProductById from "../Utils/findProductById";
 import { Delete, Add } from "@material-ui/icons";
 
 const productService = new ProductService();
@@ -46,15 +46,17 @@ export const reducer = (state, action) => {
   }
 };
 
+export const getInitialState = () => ({
+  selectedProductId: null,
+  isEditModalOpen: false,
+  isAddModalOpen: false,
+  products: [],
+});
+
 export default function App() {
   const classes = useStyles();
 
-  const [state, dispatch] = useReducer(reducer, {
-    selectedProductId: null,
-    isEditModalOpen: false,
-    isAddModalOpen: false,
-    products: [],
-  });
+  const [state, dispatch] = useReducer(reducer, getInitialState());
 
   useEffect(() => {
     const fetchData = async () => {
