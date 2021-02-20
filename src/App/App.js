@@ -114,15 +114,17 @@ export default function App() {
           </TableBody>
         </Table>
       </TableContainer>
-      <EditModal
-        open={state.isModalOpen}
-        toggleModal={toggleModal}
-        selectedProduct={findProductById(
-          state.products,
-          state.selectedProductId
-        )}
-        deleteItemById={deleteItemById}
-      />
+      {state.selectedProductId !== null ? (
+        <EditModal
+          open={state.isModalOpen}
+          toggleModal={toggleModal}
+          selectedProduct={findProductById(
+            state.products,
+            state.selectedProductId
+          )}
+          deleteItemById={deleteItemById}
+        />
+      ) : null}
     </Container>
   );
 }
