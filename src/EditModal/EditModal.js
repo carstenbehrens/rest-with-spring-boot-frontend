@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -13,16 +13,56 @@ import { Cancel, Delete, Edit } from "@material-ui/icons";
 
 export default function EditModal(props) {
   const classes = useStyles();
-  const { open, toggleModal, selectedProduct, deleteItemById } = props;
 
-  // Preventing Component from Rendering when modal is closed or no product is selected
-  if (!open || selectedProduct === undefined) {
-    return null;
-  }
+  const {
+    open,
+    toggleModal,
+    selectedProduct,
+    deleteItemById,
+    updateProduct,
+  } = props;
 
-  const deleteItemAndCloseModal = async () => {
+  const [title, setTitle] = useState(selectedProduct.title);
+  const [name, setName] = useState(selectedProduct.name);
+  const [description, setDescription] = useState(selectedProduct.description);
+  const [isEdited, setIsEdited] = useState(false);
+
+  useEffect(() => {
+    if (
+      title !== selectedProduct.title ||
+      name !== selectedProduct.name ||
+      description !== selectedProduct.description
+    ) {
+      setIsEdited(true);
+    } else {
+      setIsEdited(false);
+    }
+  }, [title, name, description, selectedProduct, isEdited]);
+
+  const handleDeleteClick = async () => {
     await deleteItemById(selectedProduct.id);
     toggleModal();
+  };
+
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
+
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value);
+  };
+
+  const handleEditClick = () => {
+    updateProduct({
+      id: selectedProduct.id,
+      title: title,
+      name: name,
+      description: description,
+    });
   };
 
   return (
@@ -40,52 +80,56 @@ export default function EditModal(props) {
               <Cancel />
             </IconButton>
           </Box>
-          <Box>
-            <form noValidate autoComplete="off">
+          <form noValidate autoComplete="off">
+            <Box>
               <TextField
                 className={classes.textField}
                 label="Title"
                 multiline
-                value={selectedProduct.title}
+                value={title}
+                onChange={handleTitleChange}
                 variant="outlined"
               />
               <TextField
                 className={classes.textField}
                 label="Name"
                 multiline
-                value={selectedProduct.name}
+                value={name}
+                onChange={handleNameChange}
                 variant="outlined"
               />
               <TextField
                 className={classes.textField}
                 label="Description"
                 multiline
-                value={selectedProduct.description}
+                value={description}
+                onChange={handleDescriptionChange}
                 variant="outlined"
               />
-            </form>
-          </Box>
-          <Box display="flex" flexDirection="row" mt={1}>
-            <Button
-              className={classes.deleteButton}
-              fullWidth
-              variant="contained"
-              color="secondary"
-              startIcon={<Delete />}
-              onClick={deleteItemAndCloseModal}
-            >
-              Delete
-            </Button>
-            <Button
-              fullWidth
-              disabled
-              variant="contained"
-              color="primary"
-              startIcon={<Edit />}
-            >
-              Edit
-            </Button>
-          </Box>
+            </Box>
+            <Box display="flex" flexDirection="row" mt={1}>
+              <Button
+                className={classes.deleteButton}
+                fullWidth
+                variant="contained"
+                color="secondary"
+                startIcon={<Delete />}
+                onClick={handleDeleteClick}
+              >
+                Delete
+              </Button>
+              <Button
+                fullWidth
+                disabled={!isEdited}
+                variant="contained"
+                color="primary"
+                startIcon={<Edit />}
+                onClick={handleEditClick}
+              >
+                Edit
+              </Button>
+            </Box>
+          </form>
         </Paper>
       </Box>
     </Modal>

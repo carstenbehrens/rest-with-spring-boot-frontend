@@ -67,6 +67,11 @@ export default function App() {
     dispatch({ type: "GET_PRODUCTS", data: products });
   };
 
+  const updateProduct = async (data) => {
+    await productService.updateProduct(data);
+    getProducts();
+  };
+
   const deleteItemById = async (id) => {
     await productService.deleteById(id);
     getProducts();
@@ -133,6 +138,7 @@ export default function App() {
             state.selectedProductId
           )}
           deleteItemById={deleteItemById}
+          updateProduct={updateProduct}
         />
       ) : null}
     </Container>

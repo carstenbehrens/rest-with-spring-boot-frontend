@@ -22,6 +22,19 @@ class ProductService {
       console.error(e);
     }
   }
+  async updateProduct(data) {
+    try {
+      await fetch(`/products/`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }
 }
 
 export default ProductService;
