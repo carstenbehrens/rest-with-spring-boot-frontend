@@ -1,4 +1,17 @@
 class ProductService {
+  async createProduct(data) {
+    try {
+      await fetch(`/products/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }
   async get() {
     try {
       const res = await fetch("/products/");

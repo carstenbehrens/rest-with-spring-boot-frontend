@@ -4,45 +4,29 @@ import {
   Button,
   Modal,
   Paper,
-  Typography,
   TextField,
   IconButton,
 } from "@material-ui/core";
 import useStyles from "./styles";
-import { Cancel, Delete, Edit } from "@material-ui/icons";
+import { Add, Cancel } from "@material-ui/icons";
 
-export default function EditModal(props) {
+export default function AddModal(props) {
   const classes = useStyles();
 
-  const {
-    open,
-    toggleEditModal,
-    selectedProduct,
-    deleteItemById,
-    updateProduct,
-  } = props;
+  const { open, toggleAddModal, createProduct } = props;
 
-  const [title, setTitle] = useState(selectedProduct.title);
-  const [name, setName] = useState(selectedProduct.name);
-  const [description, setDescription] = useState(selectedProduct.description);
-  const [isEdited, setIsEdited] = useState(false);
+  const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [isNotEmpty, setIsNotEmpty] = useState(false);
 
   useEffect(() => {
-    if (
-      title !== selectedProduct.title ||
-      name !== selectedProduct.name ||
-      description !== selectedProduct.description
-    ) {
-      setIsEdited(true);
+    if (title !== "" && name !== "" && description !== "") {
+      setIsNotEmpty(true);
     } else {
-      setIsEdited(false);
+      setIsNotEmpty(false);
     }
-  }, [title, name, description, selectedProduct, isEdited]);
-
-  const handleDeleteClick = async () => {
-    await deleteItemById(selectedProduct.id);
-    toggleEditModal();
-  };
+  }, [title, name, description, isNotEmpty]);
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -57,8 +41,7 @@ export default function EditModal(props) {
   };
 
   const handleEditClick = () => {
-    updateProduct({
-      id: selectedProduct.id,
+    createProduct({
       title: title,
       name: name,
       description: description,
@@ -66,22 +49,23 @@ export default function EditModal(props) {
   };
 
   return (
-    <Modal open={open} onClose={toggleEditModal}>
-      <Box className={classes.box}>
+    <Modal open={open} onClose={toggleAddModal}>
+      <Box
+        className={classes.box}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
         <Paper className={classes.paper} display="flex">
-          <Box
-            display="flex"
-            flexDirection="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography>Edit ID: {selectedProduct.id}</Typography>
-            <IconButton size="medium" edge="start" onClick={toggleEditModal}>
-              <Cancel />
-            </IconButton>
+          <Box display="flex" flexDirection="column">
+            <Box alignSelf="flex-end">
+              <IconButton size="medium" edge="start" onClick={toggleAddModal}>
+                <Cancel />
+              </IconButton>
+            </Box>
           </Box>
           <form noValidate autoComplete="off">
-            <Box>
+            <Box display="flex" flexDirection="column">
               <TextField
                 className={classes.textField}
                 label="Title"
@@ -109,24 +93,14 @@ export default function EditModal(props) {
             </Box>
             <Box display="flex" flexDirection="row" mt={1}>
               <Button
-                className={classes.deleteButton}
                 fullWidth
-                variant="contained"
-                color="secondary"
-                startIcon={<Delete />}
-                onClick={handleDeleteClick}
-              >
-                Delete
-              </Button>
-              <Button
-                fullWidth
-                disabled={!isEdited}
+                disabled={!isNotEmpty}
                 variant="contained"
                 color="primary"
-                startIcon={<Edit />}
+                startIcon={<Add />}
                 onClick={handleEditClick}
               >
-                Edit
+                Create
               </Button>
             </Box>
           </form>

@@ -15,8 +15,9 @@ import {
 import ProductService from "../Services/productService";
 import useStyles from "./styles";
 import EditModal from "../EditModal/EditModal";
+import AddModal from "../AddModal/AddModal";
 import findProductById from "../Utils/findProductById";
-import { Delete } from "@material-ui/icons";
+import { Delete, Add } from "@material-ui/icons";
 
 const productService = new ProductService();
 
@@ -24,10 +25,15 @@ export const reducer = (state, action) => {
   switch (action.type) {
     case "GET_PRODUCTS":
       return { ...state, products: action.data };
-    case "TOGGLE_MODAL":
+    case "TOGGLE_EDIT_MODAL":
       return {
         ...state,
-        isModalOpen: !state.isModalOpen,
+        isEditModalOpen: !state.isEditModalOpen,
+      };
+    case "TOGGLE_ADD_MODAL":
+      return {
+        ...state,
+        isAddModalOpen: !state.isAddModalOpen,
       };
     case "SET_SELECTED_PRODUCT":
       return {
@@ -44,7 +50,8 @@ export default function App() {
 
   const [state, dispatch] = useReducer(reducer, {
     selectedProductId: null,
-    isModalOpen: false,
+    isEditModalOpen: false,
+    isAddModalOpen: false,
     products: [],
   });
 
@@ -57,10 +64,21 @@ export default function App() {
 
   const handleProductClick = (id) => {
     dispatch({ type: "SET_SELECTED_PRODUCT", data: id });
-    toggleModal();
+    toggleEditModal();
   };
 
-  const toggleModal = () => dispatch({ type: "TOGGLE_MODAL" });
+  const toggleEditModal = () => dispatch({ type: "TOGGLE_EDIT_MODAL" });
+
+  const handleCreateClick = (id) => {
+    toggleAddModal();
+  };
+
+  const toggleAddModal = () => dispatch({ type: "TOGGLE_ADD_MODAL" });
+
+  const createProduct = async (data) => {
+    await productService.createProduct(data);
+    getProducts();
+  };
 
   const getProducts = async () => {
     const products = await productService.get();
@@ -129,16 +147,33 @@ export default function App() {
           </TableBody>
         </Table>
       </TableContainer>
-      {state.isModalOpen ? (
+      <Button
+        className={classes.deleteButton}
+        fullWidth
+        variant="contained"
+        color="primary"
+        startIcon={<Add />}
+        onClick={handleCreateClick}
+      >
+        Create Product
+      </Button>
+      {state.isEditModalOpen ? (
         <EditModal
-          open={state.isModalOpen}
-          toggleModal={toggleModal}
+          open={state.isEditModalOpen}
+          toggleEditModal={toggleEditModal}
           selectedProduct={findProductById(
             state.products,
             state.selectedProductId
           )}
           deleteItemById={deleteItemById}
           updateProduct={updateProduct}
+        />
+      ) : null}
+      {state.isAddModalOpen ? (
+        <AddModal
+          open={state.isAddModalOpen}
+          toggleAddModal={toggleAddModal}
+          createProduct={createProduct}
         />
       ) : null}
     </Container>
