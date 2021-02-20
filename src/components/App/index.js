@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer } from "react";
 import EditModalContent from "../EditModalContent";
 import AddModalContent from "../AddModalContent";
-import Modal from "../ModalNew";
+import Modal from "../Modal";
 import ProductService from "../../services/productService";
 import findProductById from "../../utils/findProductById";
 import useStyles from "./styles";
