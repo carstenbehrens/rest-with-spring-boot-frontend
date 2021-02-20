@@ -67,7 +67,12 @@ export default function EditModal(props) {
 
   return (
     <Modal open={open} onClose={toggleEditModal}>
-      <Box className={classes.box}>
+      <Box
+        className={classes.box}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
         <Paper className={classes.paper} display="flex">
           <Box
             display="flex"
