@@ -28,6 +28,10 @@ export const reducer = (state, action) => {
       return {
         ...state,
         isModalOpen: !state.isModalOpen,
+      };
+    case "SET_SELECTED_PRODUCT":
+      return {
+        ...state,
         selectedProductId: action.data,
       };
     default:
@@ -36,17 +40,13 @@ export const reducer = (state, action) => {
 };
 
 export default function App() {
+  const classes = useStyles();
+
   const [state, dispatch] = useReducer(reducer, {
     selectedProductId: null,
     isModalOpen: false,
     products: [],
   });
-  const classes = useStyles();
-
-  const getProducts = async () => {
-    const products = await productService.get();
-    dispatch({ type: "GET_PRODUCTS", data: products });
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,7 +55,17 @@ export default function App() {
     fetchData();
   }, []);
 
-  const toggleModal = (id) => dispatch({ type: "TOGGLE_MODAL", data: id });
+  const handleProductClick = (id) => {
+    dispatch({ type: "SET_SELECTED_PRODUCT", data: id });
+    toggleModal();
+  };
+
+  const toggleModal = () => dispatch({ type: "TOGGLE_MODAL" });
+
+  const getProducts = async () => {
+    const products = await productService.get();
+    dispatch({ type: "GET_PRODUCTS", data: products });
+  };
 
   const deleteItemById = async (id) => {
     await productService.deleteById(id);
@@ -103,7 +113,7 @@ export default function App() {
               <TableRow
                 className={classes.tableRowStyle}
                 key={entry.id}
-                onClick={() => toggleModal(entry.id)}
+                onClick={() => handleProductClick(entry.id)}
               >
                 <TableCell align="left">{entry.id}</TableCell>
                 <TableCell align="right">{entry.title}</TableCell>
@@ -114,7 +124,7 @@ export default function App() {
           </TableBody>
         </Table>
       </TableContainer>
-      {state.selectedProductId !== null ? (
+      {state.isModalOpen ? (
         <EditModal
           open={state.isModalOpen}
           toggleModal={toggleModal}
