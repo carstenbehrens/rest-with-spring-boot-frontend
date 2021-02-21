@@ -8,6 +8,12 @@ To run it, you first need to start the backend application. After that, you can 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+**Todo:**
+
+- Add End-to-End tests
+- Add more Unit-Tests
+- Add features like sorting to product table
+
 ## Available Scripts
 
 In the project directory, you can run:
