@@ -89,6 +89,7 @@ export default function AddModalContent(props) {
         </Box>
         <Box display="flex" flexDirection="row" mt={1}>
           <Button
+            id="addCreateButton"
             fullWidth
             disabled={!isNotEmpty}
             variant="contained"
