@@ -34,5 +34,5 @@ export const getInitialState = () => ({
   selectedProduct: null,
   isEditModalOpen: false,
   isAddModalOpen: false,
-  products: [],
+  products: undefined,
 });

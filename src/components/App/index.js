@@ -14,6 +14,7 @@ import {
 import useStyles from "../Table/styles";
 import { Box, Button, Container, Typography } from "@material-ui/core";
 import { Delete, Add } from "@material-ui/icons";
+import ErrorMessage from "../ErrorMessage";
 
 export default function App() {
   const productService = new ProductService();
@@ -67,66 +68,72 @@ export default function App() {
   };
 
   return (
-    <Container>
-      <Box
-        display="flex"
-        flexDirection="row"
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Typography variant="h3" component="h1" color="textSecondary">
-          Products
-        </Typography>
-        <Button
-          className={classes.deleteButton}
-          variant="contained"
-          color="secondary"
-          startIcon={<Delete />}
-          onClick={deleteAll}
-        >
-          Delete All
-        </Button>
-      </Box>
-      <Table
-        handleProductClick={handleProductClick}
-        products={state.products}
-      />
-      <Button
-        className={classes.deleteButton}
-        fullWidth
-        variant="contained"
-        color="primary"
-        startIcon={<Add />}
-        onClick={handleCreateClick}
-      >
-        Create Product
-      </Button>
-      {state.isEditModalOpen ? (
-        <Modal
-          modalContent={
-            <EditModalContent
-              toggleEditModal={toggleEditModal}
-              updateProduct={updateProduct}
-              deleteItemById={deleteItemById}
-              selectedProduct={state.selectedProduct}
+    <>
+      {state.products === undefined ? (
+        <ErrorMessage />
+      ) : (
+        <Container>
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Typography variant="h3" component="h1" color="textSecondary">
+              Products
+            </Typography>
+            <Button
+              className={classes.deleteButton}
+              variant="contained"
+              color="secondary"
+              startIcon={<Delete />}
+              onClick={deleteAll}
+            >
+              Delete All
+            </Button>
+          </Box>
+          <Table
+            handleProductClick={handleProductClick}
+            products={state.products}
+          />
+          <Button
+            className={classes.deleteButton}
+            fullWidth
+            variant="contained"
+            color="primary"
+            startIcon={<Add />}
+            onClick={handleCreateClick}
+          >
+            Create Product
+          </Button>
+          {state.isEditModalOpen ? (
+            <Modal
+              modalContent={
+                <EditModalContent
+                  toggleEditModal={toggleEditModal}
+                  updateProduct={updateProduct}
+                  deleteItemById={deleteItemById}
+                  selectedProduct={state.selectedProduct}
+                />
+              }
+              open={state.isEditModalOpen}
+              toggleModal={toggleEditModal}
             />
-          }
-          open={state.isEditModalOpen}
-          toggleModal={toggleEditModal}
-        />
-      ) : null}
-      {state.isAddModalOpen ? (
-        <Modal
-          modalContent={
-            <AddModalContent
-              toggleAddModal={toggleAddModal}
-              createProduct={createProduct}
+          ) : null}
+          {state.isAddModalOpen ? (
+            <Modal
+              modalContent={
+                <AddModalContent
+                  toggleAddModal={toggleAddModal}
+                  createProduct={createProduct}
+                />
+              }
+              toggleModal={toggleAddModal}
+              open={state.isAddModalOpen}
             />
-          }
-          toggleModal={toggleAddModal}
-          open={state.isAddModalOpen}
-        />
-      ) : null}
-    </Container>
+          ) : null}
+        </Container>
+      )}
+    </>
   );
 }
