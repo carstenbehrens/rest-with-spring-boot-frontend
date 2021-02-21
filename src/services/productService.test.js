@@ -1,4 +1,5 @@
 import ProductService from "./productService";
+import fakeApiResponse from "../utils/fakeApiResponse";
 
 describe("#productService", () => {
   const productService = new ProductService();
@@ -39,23 +40,6 @@ describe("#productService", () => {
     });
 
     test("returns the products", async () => {
-      const fakeApiResponse = [
-        {
-          id: 1,
-          title: "Konsole",
-          name: "Playstation 5",
-          description:
-            "Die PlayStation ist eine Spielkonsole des japanischen Konzerns Sony",
-        },
-        {
-          id: 9,
-          title: "Konsole",
-          name: "Nintendo Switch",
-          description:
-            "Die Nintendo Switch ist eine Spielkonsole des japanischen Herstellers Nintendo.",
-        },
-      ];
-
       jest.spyOn(global, "fetch").mockImplementation(() =>
         Promise.resolve({
           json: () => Promise.resolve(fakeApiResponse),
@@ -91,13 +75,7 @@ describe("#productService", () => {
   });
 
   describe("#updateProduct", () => {
-    const product = {
-      id: 1,
-      title: "Konsole",
-      name: "Playstation 5",
-      description:
-        "Die PlayStation ist eine Spielkonsole des japanischen Konzerns Sony",
-    };
+    const product = fakeApiResponse[0];
 
     test("calls the API correctly", async () => {
       jest.spyOn(global, "fetch").mockImplementation(() => Promise.resolve());
