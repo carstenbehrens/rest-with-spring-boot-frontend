@@ -104,6 +104,7 @@ export default function EditModalContent(props) {
         </Box>
         <Box display="flex" flexDirection="row" mt={1}>
           <Button
+            id="editDeleteButton"
             className={classes.deleteButton}
             fullWidth
             variant="contained"
@@ -114,6 +115,7 @@ export default function EditModalContent(props) {
             Delete
           </Button>
           <Button
+            id="editUpdateButton"
             fullWidth
             disabled={!isEdited}
             variant="contained"
