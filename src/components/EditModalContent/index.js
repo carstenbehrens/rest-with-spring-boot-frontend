@@ -15,7 +15,7 @@ export default function EditModalContent(props) {
   const {
     toggleEditModal,
     selectedProduct,
-    deleteItemById,
+    deleteProductById,
     updateProduct,
   } = props;
 
@@ -37,7 +37,7 @@ export default function EditModalContent(props) {
   }, [title, name, description, selectedProduct, isEdited]);
 
   const handleDeleteClick = async () => {
-    await deleteItemById(selectedProduct.id);
+    await deleteProductById(selectedProduct.id);
     toggleEditModal();
   };
 

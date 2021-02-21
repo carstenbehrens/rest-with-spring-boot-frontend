@@ -57,7 +57,7 @@ export default function App() {
     getProducts();
   };
 
-  const deleteItemById = async (id) => {
+  const deleteProductById = async (id) => {
     await productService.deleteById(id);
     getProducts();
   };
@@ -112,7 +112,7 @@ export default function App() {
                 <EditModalContent
                   toggleEditModal={toggleEditModal}
                   updateProduct={updateProduct}
-                  deleteItemById={deleteItemById}
+                  deleteProductById={deleteProductById}
                   selectedProduct={state.selectedProduct}
                 />
               }
